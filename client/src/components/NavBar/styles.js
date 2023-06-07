@@ -24,6 +24,11 @@ export default makeStyles((theme) => ({
     marginLeft: "10px",
     marginTop: "5px",
   },
+  icon: {
+    color: theme.palette.primary.main,
+    marginRight: "1em",
+    fontSize: "1.5rem",
+  },
   toolbar: {
     display: "flex",
     justifyContent: "flex-end",

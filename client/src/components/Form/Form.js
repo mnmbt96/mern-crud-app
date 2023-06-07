@@ -15,7 +15,9 @@ const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const post = useSelector((state) =>
-    currentId ? state.posts.find((message) => message._id === currentId) : null
+    currentId
+      ? state.posts.posts.find((message) => message._id === currentId)
+      : null
   );
   const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -23,11 +25,12 @@ const Form = ({ currentId, setCurrentId }) => {
     if (post) setPostData(post);
   }, [post]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(currentId);
+
     if (!currentId) {
       dispatch(createPost({ ...postsData, name: user?.result?.name }));
+      // navigate("/posts");
     } else {
       dispatch(
         updatePost(currentId, { ...postsData, name: user?.result?.name })
@@ -57,7 +60,7 @@ const Form = ({ currentId, setCurrentId }) => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6}>
       <form
         autoComplete="off"
         noValidate
@@ -65,18 +68,8 @@ const Form = ({ currentId, setCurrentId }) => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">
-          {currentId ? "Editing" : "Creating"} a Memory
+          {currentId ? "Editing" : "Creating"} a Post
         </Typography>
-        {/* <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postsData.creator}
-          onChange={(e) =>
-            setPostData({ ...postsData, creator: e.target.value })
-          }
-        /> */}
         <TextField
           name="title"
           variant="outlined"
