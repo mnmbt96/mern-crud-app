@@ -16,6 +16,8 @@ import Pagination from "../Pagination/Pagination";
 import { getPostBySearch } from "../../actions/posts";
 import { useDispatch } from "react-redux";
 import useStyles from "./styles";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -33,6 +35,9 @@ const Home = () => {
   const [tags, setTags] = useState([]);
 
   const searchPost = () => {
+    if (!search.trim() && tags.length === 0) {
+      toast.error("Please enter either a search term or select tags.");
+    }
     if (search.trim() || tags) {
       dispatch(getPostBySearch({ search, tags: tags.join(",") }));
       navigate(

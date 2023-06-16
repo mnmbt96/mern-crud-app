@@ -1,26 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
-import { useDispatch } from "react-redux";
 import { BsAirplaneFill } from "react-icons/bs";
 import decode from "jwt-decode";
 import useStyles from "./styles";
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NavBar = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("profile")) || null
   );
   const location = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleLogoutModalOpen = () => {
+    setIsModalOpen(true);
+  };
 
   const logout = () => {
-    dispatch({ type: "LOGOUT" });
     setUser(null);
     localStorage.removeItem("profile");
     navigate("/");
     window.location.reload();
+    toast.success("Logged out successfully");
   };
 
   useEffect(() => {
@@ -30,12 +36,12 @@ const NavBar = () => {
       const decodedToken = decode(token);
 
       if (decodedToken.exp * 1000 < new Date().getTime()) {
-        logout();
+        handleLogoutModalOpen();
       }
     }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
+  }, [location, user?.token]);
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
@@ -68,7 +74,7 @@ const NavBar = () => {
               variant="contained"
               className={classes.logout}
               color="secondary"
-              onClick={logout}
+              onClick={() => setIsModalOpen(true)}
             >
               Logout
             </Button>
@@ -84,6 +90,12 @@ const NavBar = () => {
           </Button>
         )}
       </Toolbar>
+      <ConfirmationModal
+        isModalOpen={isModalOpen}
+        action={logout}
+        actionName="logout"
+        closeModal={() => setIsModalOpen(false)}
+      />
     </AppBar>
   );
 };

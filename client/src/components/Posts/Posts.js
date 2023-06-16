@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, CircularProgress } from "@material-ui/core";
+import { Grid, CircularProgress, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post";
 import useStyles from "./styles";
@@ -9,7 +9,11 @@ const Posts = ({ setCurrentId }) => {
   const classes = useStyles();
 
   if (!posts.length && !isLoading) {
-    return "No Posts";
+    return (
+      <Typography variant="h6">
+        Please enter a search term or select tags in the search forms.
+      </Typography>
+    );
   }
 
   return isLoading ? (

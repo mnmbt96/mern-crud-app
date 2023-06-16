@@ -11,13 +11,28 @@ export const getPosts = async (req, res) => {
     const posts = await PostMessage.find()
       .sort({ _id: -1 })
       .limit(LIMIT)
-      .skip(startIndex);
+      .skip(startIndex)
+      .catch((error) => {
+        // throw new Error("Failed to fetch posts.");
+        console.log(error);
+      });
 
     res.status(200).json({
       data: posts,
       currentPage: Number(page),
       numberOfPage: Math.ceil(total / LIMIT),
     });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getPost = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await PostMessage.findById(id);
+
+    res.status(200).json(post);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -104,6 +119,19 @@ export const likePost = async (req, res) => {
     post.likes = post.likes.filter((id) => id !== String(req.userId));
   }
 
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+    new: true,
+  });
+
+  res.json(updatedPost);
+};
+
+export const commentPost = async (req, res) => {
+  const { id } = req.params;
+  const { value } = req.body;
+  const post = await PostMessage.findById(id);
+
+  post.comments.push(value);
   const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
     new: true,
   });

@@ -17,6 +17,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyle from "./styles";
 import Input from "./Input";
 import { signin, signup } from "../../actions/auth";
+import { toast } from "react-toastify";
+import dotenv from "dotenv";
 
 const initialState = {
   firstName: "",
@@ -33,9 +35,18 @@ const Auth = () => {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // dotenv.config();
+  // const CLIENT_ID = process.env.CLIENT_ID;
+
+  // console.log(CLIENT_ID);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (isSignup && formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match. Please try again.");
+      return;
+    }
 
     if (isSignup) {
       dispatch(signup(formData, navigate));
@@ -61,6 +72,7 @@ const Auth = () => {
 
     try {
       dispatch({ type: "AUTH", data: { result, token } });
+      toast.success("Logged in successfully!");
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -69,8 +81,10 @@ const Auth = () => {
 
   const googleFailure = (error) => {
     console.log(error);
-    console.log("Google Sign in was unsuccessfull. Try again later!");
+    toast.error("Google Sign in was unsuccessfull. Try again later!");
   };
+
+  console.log(formData);
 
   return (
     <Container component="main" maxWidth="xs">

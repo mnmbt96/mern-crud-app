@@ -1,15 +1,23 @@
 import {
   FETCH_ALL,
+  FETCH_POST,
   CREATE,
+  DELETE,
   UPDATE,
   LIKE,
-  DELETE,
+  COMMENT,
   FETCH_BY_SEARCH,
   START_LOADING,
   END_LOADING,
 } from "../constants/actionTypes";
 
-export default (state = { isLoading: true, posts: [] }, action) => {
+const initialState = {
+  isLoading: true,
+  posts: [],
+  post: {},
+};
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case START_LOADING:
       return { ...state, isLoading: true };
@@ -20,13 +28,23 @@ export default (state = { isLoading: true, posts: [] }, action) => {
         ...state,
         posts: action.payload.data,
         currentPage: action.payload.currentPage,
-        numberOfPages: action.payload.numberOfPages,
+        numberOfPage: action.payload.numberOfPage,
       };
     case FETCH_BY_SEARCH:
-      const { data } = action.payload;
-      return { ...state, posts: Array.isArray(data) ? data : [data] };
+      return { ...state, posts: action.payload.data };
+    case FETCH_POST: {
+      return { ...state, post: action.payload };
+    }
     case CREATE:
-      return { ...state, posts: [...state.posts, action.payload] };
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+      };
+    case DELETE:
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post._id !== action.payload),
+      };
     case UPDATE:
     case LIKE:
       return {
@@ -35,12 +53,19 @@ export default (state = { isLoading: true, posts: [] }, action) => {
           post._id === action.payload._id ? action.payload : post
         ),
       };
-    case DELETE:
+    case COMMENT:
       return {
         ...state,
-        posts: state.posts.filter((post) => post._id !== action.payload),
+        posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) {
+            return action.payload;
+          }
+          return post;
+        }),
       };
     default:
       return state;
   }
 };
+
+export default reducer;
