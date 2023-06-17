@@ -34,17 +34,19 @@ const CommentSection = ({ post }) => {
       );
     }
     if (comments.length > 0) {
-      return comments.map((c, i) => (
+      return (
         <>
-          <Typography key={i} gutterBottom variant="h6">
-            <strong>{c.split(": ")[0]}</strong>
-            {c.split(":")[1]}
-          </Typography>
+          {comments.map((c, i) => (
+            <Typography key={i} gutterBottom variant="h6">
+              <strong>{c.split(": ")[0]}</strong>
+              {c.split(":")[1]}
+            </Typography>
+          ))}
           {!user && (
             <Typography variant="body1">Please login to comment.</Typography>
           )}
         </>
-      ));
+      );
     }
   };
 
