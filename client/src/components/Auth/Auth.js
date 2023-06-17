@@ -18,7 +18,7 @@ import useStyle from "./styles";
 import Input from "./Input";
 import { signin, signup } from "../../actions/auth";
 import { toast } from "react-toastify";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
 const initialState = {
   firstName: "",
@@ -35,10 +35,10 @@ const Auth = () => {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // dotenv.config();
-  // const CLIENT_ID = process.env.CLIENT_ID;
 
-  // console.log(CLIENT_ID);
+  // dotenv.config();
+  const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  // console.log(GOOGLE_CLIENT_ID);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -86,9 +86,11 @@ const Auth = () => {
 
   console.log(formData);
 
+  // "770808069957-ar4gcetb4tokaclqesbsf27bcch910b6.apps.googleusercontent.com"
+
   return (
     <Container component="main" maxWidth="xs">
-      <GoogleOAuthProvider clientId="770808069957-ar4gcetb4tokaclqesbsf27bcch910b6.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
         <Paper className={classes.paper} elevation={3}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
