@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("mongodb+srv://mnmbt96:Vathaai1996@cluster0.anbd0pk.mongodb.net/");
-
 mongoose
   .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
