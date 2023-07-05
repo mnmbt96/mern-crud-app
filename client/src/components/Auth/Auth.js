@@ -18,7 +18,6 @@ import useStyle from "./styles";
 import Input from "./Input";
 import { signin, signup } from "../../actions/auth";
 import { toast } from "react-toastify";
-// import dotenv from "dotenv";
 
 const initialState = {
   firstName: "",
@@ -83,10 +82,6 @@ const Auth = () => {
     console.log(error);
     toast.error("Google Sign in was unsuccessfull. Try again later!");
   };
-
-  console.log(formData);
-
-  // "770808069957-ar4gcetb4tokaclqesbsf27bcch910b6.apps.googleusercontent.com"
 
   return (
     <Container component="main" maxWidth="xs">
