@@ -18,15 +18,16 @@ export default makeStyles((theme) => ({
     color: theme.palette.primary.main,
     textDecoration: "none",
     fontSize: "2em",
-    fontWeight: 300,
+    fontWeight: "600",
+    letterSpacing: "2px",
   },
   image: {
     marginLeft: "10px",
     marginTop: "5px",
   },
   icon: {
-    color: theme.palette.primary.main,
     marginRight: "1em",
+    width: "3rem",
     fontSize: "1.5rem",
   },
   toolbar: {

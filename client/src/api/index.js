@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: "https://mern-crud-app-server.vercel.app",
+  // baseURL: "http://localhost:6000",
 });
 
 API.interceptors.request.use((req) => {

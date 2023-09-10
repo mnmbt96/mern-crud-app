@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
-import { BsAirplaneFill } from "react-icons/bs";
+import Logo from "../../images/logo.png";
 import decode from "jwt-decode";
 import useStyles from "./styles";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
@@ -46,7 +46,7 @@ const NavBar = () => {
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
-        <BsAirplaneFill className={classes.icon} />
+        <img src={Logo} alt="logo" className={classes.icon} />
         <Typography
           component={Link}
           to="/"
@@ -54,7 +54,7 @@ const NavBar = () => {
           variant="h2"
           align="center"
         >
-          Blog
+          TraveLog
         </Typography>
       </div>
       <Toolbar className={classes.toolbar}>
